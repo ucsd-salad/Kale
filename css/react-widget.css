@@ -1,0 +1,5 @@
+.action-buttons {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}

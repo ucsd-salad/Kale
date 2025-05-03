@@ -1,0 +1,45 @@
+.custom-widget {
+  padding: 0px 2px;
+}
+
+.ag-theme-alpine .ag-row-hover{
+  background-color: white;
+}
+
+.ag-theme-alpine .ag-row-odd {
+  background-color: white;
+}
+
+/* Overridden CSS to ensure row width takes 100% on edit */
+.ag-cell-wrapper[max-width~="50px"] input {
+  width: 65%;
+  padding-left: 1rem;
+}
+
+.ag-cell-wrapper[min-width~="51px"] input {
+  width: 90%;
+  padding-left: 1rem;
+}
+
+.ag-cell-wrapper[min-width~="210px"] input {
+  width: 95%;
+  padding-left: 1rem;
+}
+
+.ag-cell-wrapper[min-width~="430px"] input {
+  width: 98%;
+  padding-left: 1rem;
+}
+
+.ag-cell-wrapper[min-width~="900px"] input {
+  width: 99%;
+  padding-left: 1rem;
+}
+ 
+.firstColumnColor .ag-cell-wrapper{
+  background-color :  #D3D3D3;
+} 
+
+.ag-fill-handle {
+  right: -1.05rem !important;
+}
