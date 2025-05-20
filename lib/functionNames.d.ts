@@ -1,0 +1,10 @@
+export declare const IF = "IF";
+export declare const ABS = "ABS";
+export declare const MAX = "MAX";
+export declare const MIN = "MIN";
+export declare const SUM = "SUM";
+export declare const COUNT = "COUNT";
+export declare const MEDIAN = "MEDIAN";
+export declare const LARGE = "LARGE";
+export declare const AVERAGE = "AVERAGE";
+export declare const ROUND = "ROUND";

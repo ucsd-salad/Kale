@@ -175,6 +175,13 @@ export default forwardRef<IforwardRefForwardedRef, IforwardRefProps>(
           if (initialName) {
             cellValue.setName(initialName);
           }
+
+          // Allow for empty cells
+          if (value === "") {
+            cellValue.setValue("");
+            return cellValue;
+          }
+
           if (value.toUpperCase() === "TRUE") {
             cellValue.setValue(Boolean(1));
             return cellValue;

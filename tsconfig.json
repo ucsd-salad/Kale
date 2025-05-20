@@ -18,5 +18,5 @@
     "strictPropertyInitialization": false,
     "target": "es2015"
   },
-  "include": ["src", "src/main.tsx", "src/vite-env.d.ts"]
+  "include": ["src", "src/task1.tsx", "src/vite-env.d.ts"]
 }

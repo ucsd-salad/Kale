@@ -334,7 +334,6 @@ class FormulaEvaluationVisitor
   }
 
   visitFunction(ctx: FunctionContext): any {
-    this.insideFunction = true;
     let args: (AbsRowReferenceContext[] | ExprContext[] | null | undefined) = null;
     args = ctx.arguments()?.absRowReference();
 
@@ -347,6 +346,18 @@ class FormulaEvaluationVisitor
     }
 
     let functionName = ctx.IDENT().text.toUpperCase();
+
+    // determine whether or not to evaluate references before entering function
+    if (functionName === "ROUND"
+      || (functionName === "AVERAGE" && args && args.length > 1)
+      || (functionName === "SUM" && args && args.length > 1)
+      || (functionName === "MAX" && args && args.length > 1)
+      || (functionName === "MIN" && args && args.length > 1)) {
+      this.insideFunction = false;
+    } else {
+      this.insideFunction = true;
+    }
+
     let argList = [] as any;
 
     if (functionName === IF) {
@@ -643,7 +654,26 @@ class FormulaEvaluationVisitor
 
         return formulaNumber(medianValue);
     }
+    if (functionName === ROUND) {
+      if (argList.length !== 2) {
+        return formulaError("ROUND function takes exactly two arguments");
+      }
 
+      let value = argList[0];
+      let decimalPlaces = argList[1];
+
+      if (value.kind === ERROR || decimalPlaces.kind === ERROR) {
+        return formulaError("placeholder");
+      }
+
+      if (value.kind === NUMBER && decimalPlaces.kind === NUMBER) {
+        return formulaNumber(
+          Number(value.value.toFixed(decimalPlaces.value.valueOf()))
+        );
+      } else {
+        return formulaError("Invalid arguments for ROUND function");
+      }
+    }
     if (functionName === AVERAGE) {
       let sumValue = new Number(0);
       let countValue = new Number(0); 
@@ -753,26 +783,6 @@ class FormulaEvaluationVisitor
       rangeValues.sort((a, b) => b - a); // sort descending
 
       return formulaNumber(rangeValues[n - 1]);
-    }
-
-    if (functionName === ROUND) {
-      if (argList.length !== 2) {
-        return formulaError("ROUND takes exactly two arguments");
-      }
-      let value = argList[0];
-      let decimalPlaces = argList[1];
-
-      if (value.kind === ERROR || decimalPlaces.kind === ERROR) {
-        return formulaError(value.value || decimalPlaces.value);
-      }
-
-      if (value.kind === NUMBER && decimalPlaces.kind === NUMBER) {
-        return formulaNumber(
-          Number(value.value.toFixed(decimalPlaces.value))
-        );
-      } else {
-        return formulaError("Invalid arguments for ROUND function");
-      }
     }
       
     else {
@@ -1098,8 +1108,6 @@ class FormulaEvaluationVisitor
       }
     }
 
-
-
     // If the formula reference has no index (referencing whole column) and the reference is inside a function,
     // add a dependency between current formula cell and each row of the referenced column
     if (!indexExpr && this.insideFunction && !this.insideQuery) {
@@ -1144,9 +1152,8 @@ class FormulaEvaluationVisitor
         // Now you can instantiate your queryValue with the referenced_column set to the column's identifier
         // and the vector set to the array of column values.
          
-        
         return queryValue("", vector);
-  }
+    }
 
     switch (index.kind) {
       case ERROR:
@@ -1226,7 +1233,7 @@ class FormulaEvaluationVisitor
     let focuscedColumn = this.evaluationContext.gridApi
       ?.getFocusedCell()
       ?.column.getColId();
-
+    
     return this.evaluationContext.getColumnValueReference(
       ident.text,
       focuscedColumn

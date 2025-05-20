@@ -20,6 +20,11 @@ import {
   RowStyle,
   FillOperationParams,
   CellRange,
+  PasteStartEvent,
+  SendToClipboardParams,
+  RangeSelectionChangedEvent,
+  GridOptions,
+  ProcessDataFromClipboardParams,
 } from "ag-grid-community";
 import { DepGraph } from "dependency-graph";
 
@@ -63,7 +68,7 @@ function recalculate(event: AgGridEvent, model: WidgetModel) {
 
 let col_num = 1;
 export const NAMED_CELL_PREFIX = "#namedcell:";
-export const ROW_NUMBER_COL_NAME = "RN";
+export const ROW_NUMBER_COL_NAME = "#";
 export const AGGREGATE_COL_NAME = "Aggregation";
 const HEADER_CLASS = ".ag-header-cell";
 let envVar;
@@ -71,6 +76,8 @@ let model;
 // By default, set the paste type as copy
 // paste type is changed in the CutStartEvent
 let pasteType = PasteType.Copy;
+// Store copied data type
+let copiedData = "";
 
 //TODO: To make the code more efficient, two properties to each cell
 //1. hasError 2. errorMessage instead of checking each time whether a name is valid onCellFocused
@@ -287,7 +294,6 @@ export const renameColumn = (
   if (oldColumnName === newColumnName || newColumnName === null || newColumnName === undefined) { 
     return "";
   }
-
   let rowValues: any = [];
   const allRowNodes = getAllRowNodes(gridOptions.api);
   // Push existing row values of the old column name
@@ -451,6 +457,20 @@ export function createGrid(props: WidgetProps) {
     rowsWithCells.push(rowWithCells);
   }
 
+  // Temporary workaround to manually add cell names
+  if (rowsWithCells[0] && rowsWithCells[0]["growth"]) {
+    rowsWithCells[0]["growth"].name = "growth_rate";
+  }
+  if (rowsWithCells[5] && rowsWithCells[5]["Final_Project"]) {
+    rowsWithCells[5]["Final_Project"].name = "favorite_final";
+  }
+  if (rowsWithCells[7] && rowsWithCells[7]["Skit_Project"]) {
+    rowsWithCells[7]["Skit_Project"].name = "favorite_skit";
+  }
+  if (rowsWithCells[11] && rowsWithCells[11]["Video_Project"]) {
+    rowsWithCells[11]["Video_Project"].name = "favorite_video";
+  }
+
   model = props.model;
 
   const [rowData, setRowData] = useState(rowsWithCells);
@@ -510,7 +530,6 @@ export function createGrid(props: WidgetProps) {
 
   const handleRowDragEnd = (event) => {
     // Code to be executed when the row dragging has stopped
-    console.log("Row dragging has stopped");
     recalculate(event, props.model);
   };
 
@@ -564,6 +583,24 @@ export function createGrid(props: WidgetProps) {
     const colSelected = e.column["colId"];
     const rowIndex = e.rowIndex;
     const rowNode = e.api.getDisplayedRowAtIndex(rowIndex);
+
+    // If the focused cell is in the row number column, add a cell range for the entire row
+    if (colSelected === ROW_NUMBER_COL_NAME) {
+      const allColumns = e.columnApi.getAllDisplayedColumns();
+      const firstColumn = allColumns[0].getColId();
+      const lastColumn = allColumns[allColumns.length - 1].getColId();
+
+      // Add a cell range for the entire row
+      // e.api.addCellRange({
+      //   rowStartIndex: rowIndex,
+      //   rowEndIndex: rowIndex,
+      //   columnStart: firstColumn,
+      //   columnEnd: lastColumn,
+      // });
+
+      return; // Exit early to prevent further processing
+    }
+
     //check for null value
     if (!rowNode) {
       return;
@@ -590,6 +627,98 @@ export function createGrid(props: WidgetProps) {
       message: isNameValid["message"],
     });
   };
+
+  const onRangeSelectionChanged = (e: RangeSelectionChangedEvent) => {
+    const selectedRanges: CellRange[] | null = e.api.getCellRanges(); // Get the selected range being used for fill-handle
+    if (!selectedRanges || selectedRanges.length === 0) {
+      return;
+    }
+    for (const range of selectedRanges) {
+      if (range.startColumn.getColId() === ROW_NUMBER_COL_NAME && range.columns.length === 1) {
+        const allColumns = e.columnApi.getAllDisplayedColumns();
+        const firstColumn = allColumns[0].getColId();
+        const lastColumn = allColumns[allColumns.length - 1].getColId();
+        for (const range2 of selectedRanges) {
+          if (range2.columns.length == allColumns.length
+            && range2.startRow?.rowIndex == range.startRow?.rowIndex
+            && range2.endRow?.rowIndex == range.endRow?.rowIndex) {
+            return;
+          }
+        }
+        if (range.startRow && range.endRow) {
+          // Add a new range for the entire row
+          e.api.addCellRange({
+            rowStartIndex: range.startRow.rowIndex,
+            rowEndIndex: range.endRow.rowIndex,
+            columnStart: firstColumn,
+            columnEnd: lastColumn,
+          });
+          // Select all rows between the start and end rows
+          
+        }
+      }
+    }
+  }
+
+  // const sendToClipboard = (params: SendToClipboardParams) => {
+  //   console.log("send to clipboard called with:");
+  //   console.log(params);
+  //   const selectedRanges: CellRange[] | null = params.api.getCellRanges(); // Get the selected range being used for fill-handle
+  //   if (!selectedRanges || selectedRanges.length === 0) {
+  //     return;
+  //   }
+  // }
+
+  const processDataFromClipboard = (params: ProcessDataFromClipboardParams) => {
+    const focusedCell = params.api.getFocusedCell();
+    if (!focusedCell) {
+      return;
+    }
+
+    // if there's not enough rows in the sheet, add empty rows to be pasted into (prevent the last row from being overwritten)
+    if (params.api.getDisplayedRowCount() < focusedCell.rowIndex + params.data.length + 1) {
+      for (let i = params.api.getDisplayedRowCount(); i < focusedCell.rowIndex + params.data.length; i++) {
+        addRow(props, "AFTER");
+      }
+    }
+
+    if (focusedCell && focusedCell.column.getColId() === ROW_NUMBER_COL_NAME) {
+      // if the focused cell is in the row number column, convert the selected range to only the focused cell so that paste works properly across rows
+      const allColumns = params.columnApi.getAllDisplayedColumns();
+      const firstColumn = allColumns[0].getColId();
+      params.api.clearRangeSelection();
+      params.api.addCellRange({
+        rowStartIndex: focusedCell.rowIndex,
+        rowEndIndex: focusedCell.rowIndex,
+        columnStart: firstColumn,
+        columnEnd: firstColumn,
+      });
+      // if the empty row number column is not present, add it to the clipboard data
+      let pastedData: string[][] = [];
+      for (const row of params.data) {
+        if (row[0] !== "") {
+          pastedData.push([""].concat(row));
+        } else {
+          pastedData.push(row);
+        }
+      }
+      return pastedData;
+    } else {
+      // if the focused cell is not in the row number column, remove empty row number column from clipboard data
+      let pastedData : string[][] = [];
+      for (const row of params.data) {
+        let rowData: string[] = [];
+        for (const cell of row) {
+          if (cell !== "") {
+            rowData.push(cell);
+          }
+        }
+        pastedData.push(rowData);
+      }
+      return pastedData;
+    }
+  }
+
   // Updates the model state value with the latest table data
   const updateModelValue = (event) => {
     let modelValue: any = [];
@@ -654,7 +783,10 @@ export function createGrid(props: WidgetProps) {
   // Event which gets called when data is copied (copy/cut) into the clipboard
   const processCellForClipboard = (params: ProcessCellForExportParams) => {
     const colName: string = params.column.getColId();
-    if (colName && params.node) {
+    if (colName === ROW_NUMBER_COL_NAME) {
+      return;
+    }
+    if (colName && params.node && params.node.data[colName] != null) {
       const cell = params.node.data[colName];
       let value;
       if (cell.formulaCell) {
@@ -754,6 +886,7 @@ export function createGrid(props: WidgetProps) {
       // },
       cellDataType: false,
       lockPinned: true, // column cannot be pinned by dragging
+      minWidth: 150
     };
     if (column === ROW_NUMBER_COL_NAME) {
       columnProperties["cellClass"]=(params)=>{  
@@ -762,7 +895,8 @@ export function createGrid(props: WidgetProps) {
       };
       columnProperties["editable"] = false;
       columnProperties["rowDrag"] = true; // enable row-drag to reorder rows
-      columnProperties["maxWidth"] = 80;
+      columnProperties["maxWidth"] = 100;
+      columnProperties["minWidth"] = 100;
       columnProperties["headerName"] = "";
       columnProperties["sortable"] = false;
       columnProperties["suppressMovable"] = true; // column cannot be dragged
@@ -781,37 +915,72 @@ export function createGrid(props: WidgetProps) {
     // For first column (Row_number), only allow 'Add Column Right' action
     if (params.column.colId === ROW_NUMBER_COL_NAME) {
       return [
-        {
-          name: "Add Column Right",
-          action: () => {
-            addColumn(props, params.column.getId(), Position.Right);
-          },
-        },
+        // {
+        //   name: "Add Column Right",
+        //   action: () => {
+        //     addColumn(props, params.column.getId(), Position.Right);
+        //   },
+        // },
       ];
     }
     if (params.column.colId === AGGREGATE_COL_NAME) {
       return [
-        {
-          name: "Add Column Left",
-          action: () => {
-            addColumn(props, params.column.getId(), Position.Left);
-          },
-        },
+        // {
+        //   name: "Add Column Left",
+        //   action: () => {
+        //     addColumn(props, params.column.getId(), Position.Left);
+        //   },
+        // },
       ];
     }
     return [
+      // {
+      //   name: "Sort Ascending",
+      //   action: () => {
+      //     params.api.applyColumnState({
+      //       state: [{ colId: params.column.colId, sort: "asc" }],
+      //       defaultState: { sort: null },
+      //     })
+      //   },
+      // },
+      // {
+      //   name: "Sort Descending",
+      //   action: () => {
+      //     params.api.applyColumnState({
+      //       state: [{ colId: params.column.colId, sort: "desc" }],
+      //       defaultState: { sort: null },
+      //     })
+      //   },
+      // },
+      // {
+      //   name: "Remove Sort",
+      //   action: () => {
+      //     params.api.applyColumnState({
+      //       defaultState: { sort: null },
+      //     })
+      //   },
+      // },
       {
-        name: "Add Column Right",
+        name: "Rename Column",
         action: () => {
-          addColumn(props, params.column.getId(), Position.Right);
+          const oldColumnName = params.column.getColId();
+          const newColumnName = window.prompt("Enter new column name:", oldColumnName);
+    
+          renameColumn(props.gridOptions, oldColumnName, oldColumnName, newColumnName, null, props.model);
         },
       },
-      {
-        name: "Add Column Left",
-        action: () => {
-          addColumn(props, params.column.getId(), Position.Left);
-        },
-      },
+      // {
+      //   name: "Add Column Right",
+      //   action: () => {
+      //     addColumn(props, params.column.getId(), Position.Right);
+      //   },
+      // },
+      // {
+      //   name: "Add Column Left",
+      //   action: () => {
+      //     addColumn(props, params.column.getId(), Position.Left);
+      //   },
+      // },
       {
         name: "Delete Column",
         action: () => {
@@ -968,6 +1137,7 @@ export function createGrid(props: WidgetProps) {
   props.gridOptions.onCellEditingStarted = onCellEditingStarted;
   props.gridOptions.onCellEditingStopped = onCellEditingStopped;
   props.gridOptions.onCellFocused = onCellFocused;
+  props.gridOptions.onRangeSelectionChanged = onRangeSelectionChanged;
   props.gridOptions.getMainMenuItems = getMainMenuItems;
   props.gridOptions.onColumnMoved = onColumnMoved;
   props.gridOptions.processCellForClipboard = processCellForClipboard;
@@ -981,7 +1151,7 @@ export function createGrid(props: WidgetProps) {
   };
   props.gridOptions.context = context;
   props.gridOptions.rowDragManaged = true;
-  // props.gridOptions.suppressColumnVirtualisation = true;
+  props.gridOptions.suppressColumnVirtualisation = true;
   props.gridOptions.enableRangeSelection = true;
   props.gridOptions.alwaysShowHorizontalScroll = true;
   props.gridOptions.suppressHorizontalScroll = false;
@@ -995,6 +1165,12 @@ export function createGrid(props: WidgetProps) {
   props.gridOptions.enableFillHandle = true;
   props.gridOptions.fillOperation = fillOperation;
   props.gridOptions.maintainColumnOrder = true;
+  props.gridOptions.headerHeight = 50;
+  props.gridOptions.undoRedoCellEditing = true;
+  props.gridOptions.undoRedoCellEditingLimit = 20;
+  props.gridOptions.suppressSizeToFit = true;
+  props.gridOptions.processDataFromClipboard = processDataFromClipboard;
+  // props.gridOptions.sendToClipboard = sendToClipboard;
 
 
   // props.gridOptions = {
@@ -1197,13 +1373,12 @@ export function createGrid(props: WidgetProps) {
     //  ------
   };
 
-
-
   //Styling the Formula and Name Bar
   const barStyle = {
     display: "flex",
     alignItems: "center",
     marginBottom: "0.5rem",
+    justifyContent: "flex-start",
   };
   const textStyle = { marginRight: "1.2rem", verticalAlign: "middle" };
   const spanStyle = {
@@ -1219,57 +1394,61 @@ export function createGrid(props: WidgetProps) {
   let grid = (
     <div style={{ height: 1080, width: "100%" }}>
       <div style={{ height: "0.8rem" }}></div>
-      <div style={barStyle}>
-        <label
-          htmlFor="formulaBar"
-          style={{ marginRight: "1.2rem", verticalAlign: "middle" }}
-        >
-          Formula Bar
-        </label>
-        <input
-          id="formulaBar"
-          value={formulaBarText}
-          onKeyDown={(e) => onEnterKeyPressed(e)}
-          onChange={(e) => handleFormulaBarChange(e)}
-          style={{
-            height: "1.1rem",
-            backgroundColor: "#F0F0F0",
-            verticalAlign: "middle",
-          }}
-        />
-      </div>
-      <div style={barStyle}>
-        <label htmlFor="nameBar" style={textStyle}>
-          Name Bar
-        </label>
-        <input
-          id="nameBar"
-          placeholder="Insert Name Here"
-          value={nameBarText}
-          onKeyDown={(e) => onEnterKeyPressed(e)}
-          onChange={(e) => updateNameBarText(e)}
-          style={{
-            height: "1.1rem",
-            backgroundColor: nameBarText ? "#FFFFFF" : "#F0F0F0",
-            verticalAlign: "middle",
-            color: nameBarText ? "#000000" : "#808080",
-            borderColor: nameIsValid["hasError"] ? "#FF0000" : "#000000",
-            ...spanStyle,
-            ...(!nameIsValid["hasError"] ? {} : nameBarInvalidStyle),
-          }}
-        />
-        {nameIsValid["hasError"] && (
-          <span style={{ ...spanStyle, marginLeft: "0.5rem" }}>
-            {nameIsValid["message"]}
-          </span>
-        )}
+      <div style={{ width: "30%" }}>
+        {/* <div style={barStyle}>
+          <label
+            htmlFor="formulaBar"
+            style={{ marginRight: "1.2rem", verticalAlign: "middle" }}
+          >
+            Formula Bar
+          </label>
+          <input
+            id="formulaBar"
+            placeholder="Insert Formula Here"
+            value={formulaBarText}
+            onKeyDown={(e) => onEnterKeyPressed(e)}
+            onChange={(e) => handleFormulaBarChange(e)}
+            style={{
+              height: "1.1rem",
+              backgroundColor: "#F0F0F0",
+              verticalAlign: "middle",
+              color: "#000000",
+              ...spanStyle,
+            }}
+          />
+        </div> */}
+        <div style={barStyle}>
+          <label htmlFor="nameBar" style={textStyle}>
+            Name Bar
+          </label>
+          <input
+            id="nameBar"
+            placeholder="Insert Name Here"
+            value={nameBarText}
+            onKeyDown={(e) => onEnterKeyPressed(e)}
+            onChange={(e) => updateNameBarText(e)}
+            style={{
+              height: "1.1rem",
+              backgroundColor: nameBarText ? "#FFFFFF" : "#F0F0F0",
+              verticalAlign: "middle",
+              color: nameBarText ? "#000000" : "#808080",
+              borderColor: nameIsValid["hasError"] ? "#FF0000" : "#000000",
+              ...spanStyle,
+              ...(!nameIsValid["hasError"] ? {} : nameBarInvalidStyle),
+            }}
+          />
+          {nameIsValid["hasError"] && (
+            <span style={{ ...spanStyle, marginLeft: "0.5rem" }}>
+              {nameIsValid["message"]}
+            </span>
+          )}
+        </div>
       </div>
       <div
         className="ag-theme-alpine"
         style={{
-          height: 600,
-          maxHeight: 1000,
-          width: 1000,
+          height: 580,
+          width: "100%",
           marginBottom: "auto",
           resize: "both",
           overflow: "auto",
@@ -1360,7 +1539,7 @@ export function addColumn(props, id = "None", pos: Position) {
   const allRowNodes = getAllRowNodes(props.gridOptions.api);
   allRowNodes.forEach(node => {
     let cellValue = new Cell({column: newName, rowNodeId: node.id});
-    cellValue.setValue(0);
+    cellValue.setValue("");
     node.setDataValue(new_col.field, cellValue);
   });
 
@@ -1380,7 +1559,7 @@ export function addRow(props, pos = "None") {
   cols.forEach((column) => {
     const columnName = column.colId;
     let cellValue = new Cell({column: columnName});
-    cellValue.setValue(0);
+    cellValue.setValue("");
     initialRowValue[columnName] = cellValue;
   })
   let newRowNodeId: string | null | undefined = null;
@@ -1400,7 +1579,7 @@ export function addRow(props, pos = "None") {
   if (txnRes && txnRes.add && txnRes.add.length > 0) {
     newRowNodeId = txnRes.add[0].id;
     // Update row node ids for all the cells in the newly added row
-    let rowNode = props.gridOptions.getRowNode(newRowNodeId);
+    let rowNode = props.gridOptions.api.getRowNode(newRowNodeId);
     const rowData = rowNode.data;
     for (const col in rowData) {
       let cell = rowData[col];
@@ -1415,7 +1594,7 @@ export function addRow(props, pos = "None") {
 export function createAddColButton(props: WidgetProps) {
   let button = (
     <button
-      style={{ height: "4rem", width: "6rem" }}
+      style={{ height: "4rem", width: "6rem", fontSize: "0.9rem" }}
       onClick={() => addColumn(props, "None", Position.NoPos)}
     >
       Add Column
@@ -1427,7 +1606,7 @@ export function createAddColButton(props: WidgetProps) {
 export function createAddRowButton(props: WidgetProps) {
   let button = (
     <button
-      style={{ height: "4rem", width: "6rem" }}
+      style={{ height: "4rem", width: "6rem", fontSize: "0.9rem" }}
       onClick={() => addRow(props)}
     >
       Add Row
@@ -1439,7 +1618,7 @@ export function createAddRowButton(props: WidgetProps) {
 export function createAddRowAfterButton(props: WidgetProps) {
   let button = (
     <button
-      style={{ height: "4rem", width: "6rem" }}
+      style={{ height: "4rem", width: "6rem", fontSize: "0.9rem"  }}
       onClick={() => addRow(props, "After")}
     >
       Add Row After
@@ -1451,7 +1630,7 @@ export function createAddRowAfterButton(props: WidgetProps) {
 export function createAddRowBeforeButton(props: WidgetProps) {
   let button = (
     <button
-      style={{ height: "4rem", width: "6rem" }}
+      style={{ height: "4rem", width: "6rem", fontSize: "0.9rem" }}
       onClick={() => addRow(props, "Before")}
     >
       Add Row Before
@@ -1463,7 +1642,7 @@ export function createAddRowBeforeButton(props: WidgetProps) {
 export function createDeleteRowButton(props: WidgetProps) {
   let button = (
     <button
-      style={{ height: "4rem", width: "6rem" }}
+      style={{ height: "4rem", width: "6rem", fontSize: "0.9rem" }}
       onClick={() => deleteRow(props)}
     >
       Delete Row
@@ -1475,10 +1654,34 @@ export function createDeleteRowButton(props: WidgetProps) {
 export function createCopyRowsButton(props: WidgetProps) {
   let button = (
     <button
-      style={{ height: "4rem", width: "6rem" }}
+      style={{ height: "4rem", width: "6rem", fontSize: "0.9rem" }}
       onClick={() => copyRows(props)}
     >
       Copy Rows
+    </button>
+  );
+  return button;
+}
+
+export function createInsertCopiedRowsAboveButton(props: WidgetProps) {
+  let button = (
+    <button
+      style={{ height: "4rem", width: "8rem", fontSize: "0.9rem" }}
+      onClick={() => insertCopiedRows(props, "Before")}
+    >
+      Insert Copied Rows Above
+    </button>
+  );
+  return button;
+}
+
+export function createInsertCopiedRowsBelowButton(props: WidgetProps) {
+  let button = (
+    <button
+      style={{ height: "4rem", width: "8rem", fontSize: "0.9rem" }}
+      onClick={() => insertCopiedRows(props, "After")}
+    >
+      Insert Copied Rows Below
     </button>
   );
   return button;
@@ -1518,6 +1721,30 @@ export function copyRows(props) {
   navigator.clipboard.writeText(convertToTabSeparated(JSON.stringify(val)));
 }
 
+export function insertCopiedRows(props, pos = "Before") {
+  let numRows;
+  navigator.clipboard.readText().then((text) => {
+    numRows = text.split("\n").length;
+    for (let i = 0; i < numRows; i++) {
+      addRow(props, pos);
+    }
+  })
+  const selectedRows = props.gridOptions.api.getSelectedRows();
+  console.log("Selected Rows: ", selectedRows);
+  const currentRowIndex = props.gridOptions.api.getFocusedCell().rowIndex;
+  props.gridOptions.api.clearFocusedCell();
+  props.gridOptions.api.clearRangeSelection();
+  if (pos == "Before") {
+    // focus the first cell of the top row added
+    props.gridOptions.api.setFocusedCell(currentRowIndex, props.gridOptions.columnDefs[0].field);
+  } else if (pos == "After") {
+    // focus the first cell of the row below the currently focused cell
+    props.gridOptions.api.setFocusedCell(currentRowIndex + 1, props.gridOptions.columnDefs[0].field);
+  }
+  props.gridOptions.api.pasteFromClipboard();
+  recalculate(props.gridOptions, props.model);
+}
+
 function convertToTabSeparated(input: string): string {
   try {
     const data = JSON.parse(input);
@@ -1528,9 +1755,9 @@ function convertToTabSeparated(input: string): string {
 
     return data
       .map(row => {
-        // Filter out the "RN" field and keep the nested objects
+        // Filter out the "#" field and keep the nested objects
         return Object.entries(row)
-          .filter(([key]) => key !== "RN")
+          .filter(([key]) => key !== "#")
           .map(([, value]) => JSON.stringify(value))
           .join("\t");
       })

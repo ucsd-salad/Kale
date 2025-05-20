@@ -1,0 +1,112 @@
+[
+    {
+        "Aquarium_Tanks": "Coast 1",
+        "Month_1": 65,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": 1.323,
+        "Fish_Added_Month_4": 12,
+        "Fish_Added_Month_5": 24
+    },
+    {
+        "Aquarium_Tanks": "Coast 2",
+        "Month_1": 31,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Open Ocean 1",
+        "Month_1": 108,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Open Ocean 2",
+        "Month_1": 49,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Shark Tunnel",
+        "Month_1": 55,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Deep Sea",
+        "Month_1": 54,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Touch Tank",
+        "Month_1": 6,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Tidepool",
+        "Month_1": 17,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Seasonal Exhibit",
+        "Month_1": 20,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    },
+    {
+        "Aquarium_Tanks": "Arctic",
+        "Month_1": 12,
+        "Month_2": "",
+        "Month_3": "",
+        "Month_4": "",
+        "Month_5": "",
+        "Growth_Rate": "",
+        "Fish_Added_Month_4": "",
+        "Fish_Added_Month_5": ""
+    }
+]

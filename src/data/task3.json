@@ -1,0 +1,506 @@
+[
+    {
+      "Labor_Category_Description": "Administrative/Graphics Specialist",
+      "year_one": 31.19,
+      "year_two": 32.44,
+      "year_three": 33.73,
+      "year_four": 35.08,
+      "year_five": 36.49
+    },
+    {
+      "Labor_Category_Description": "BPR Specialist, Senior",
+      "year_one": 118.52,
+      "year_two": 123.26,
+      "year_three": 128.19,
+      "year_four": 133.32,
+      "year_five": 138.65
+    },
+    {
+      "Labor_Category_Description": "Budget/Financial Analyst",
+      "year_one": 65.41,
+      "year_two": 68.02,
+      "year_three": 70.74,
+      "year_four": 73.57,
+      "year_five": 76.52
+    },
+    {
+      "Labor_Category_Description": "Budget/Financial Analyst, Junior",
+      "year_one": 48.43,
+      "year_two": 50.37,
+      "year_three": 52.38,
+      "year_four": 54.48,
+      "year_five": 56.66
+    },
+    {
+      "Labor_Category_Description": "Budget/Financial Analyst, Senior",
+      "year_one": 100.93,
+      "year_two": 104.97,
+      "year_three": 109.17,
+      "year_four": 113.53,
+      "year_five": 118.08
+    },
+    {
+      "Labor_Category_Description": "Communications Engineer",
+      "year_one": 53.66,
+      "year_two": 55.81,
+      "year_three": 58.04,
+      "year_four": 60.36,
+      "year_five": 62.78
+    },
+    {
+      "Labor_Category_Description": "Communications/Network Manager",
+      "year_one": 56.05,
+      "year_two": 58.29,
+      "year_three": 60.62,
+      "year_four": 63.04,
+      "year_five": 65.57
+    },
+    {
+      "Labor_Category_Description": "Computer Systems Engineer",
+      "year_one": 49.14,
+      "year_two": 51.11,
+      "year_three": 53.15,
+      "year_four": 55.28,
+      "year_five": 57.49
+    },
+    {
+      "Labor_Category_Description": "Computer Systems Engineer, Senior",
+      "year_one": 73.58,
+      "year_two": 76.52,
+      "year_three": 79.58,
+      "year_four": 82.77,
+      "year_five": 86.08
+    },
+    {
+      "Labor_Category_Description": "Computer Technician",
+      "year_one": 87.94,
+      "year_two": 91.46,
+      "year_three": 95.12,
+      "year_four": 98.92,
+      "year_five": 102.88
+    },
+    {
+      "Labor_Category_Description": "Database Management Analyst",
+      "year_one": 43.84,
+      "year_two": 45.59,
+      "year_three": 47.41,
+      "year_four": 49.31,
+      "year_five": 51.28
+    },
+    {
+      "Labor_Category_Description": "Database Management Analyst, Senior",
+      "year_one": 74.12,
+      "year_two": 77.09,
+      "year_three": 80.17,
+      "year_four": 83.38,
+      "year_five": 86.71
+    },
+    {
+      "Labor_Category_Description": "Enterprise Network Engineer",
+      "year_one": 182.57,
+      "year_two": 189.87,
+      "year_three": 197.47,
+      "year_four": 205.37,
+      "year_five": 213.58
+    },
+    {
+      "Labor_Category_Description": "Functional Analyst",
+      "year_one": 51.19,
+      "year_two": 53.24,
+      "year_three": 55.37,
+      "year_four": 57.58,
+      "year_five": 59.88
+    },
+    {
+      "Labor_Category_Description": "Functional Analyst, Junior",
+      "year_one": 41.35,
+      "year_two": 43.00,
+      "year_three": 44.72,
+      "year_four": 46.51,
+      "year_five": 48.37
+    },
+    {
+      "Labor_Category_Description": "Functional Analyst, Senior",
+      "year_one": 65.43,
+      "year_two": 68.04,
+      "year_three": 70.77,
+      "year_four": 73.60,
+      "year_five": 76.54
+    },
+    {
+      "Labor_Category_Description": "Help Desk Manager",
+      "year_one": 47.53,
+      "year_two": 49.43,
+      "year_three": 51.41,
+      "year_four": 53.46,
+      "year_five": 55.60
+    },
+    {
+      "Labor_Category_Description": "Help Desk Specialist",
+      "year_one": 36.41,
+      "year_two": 37.87,
+      "year_three": 39.38,
+      "year_four": 40.96,
+      "year_five": 42.60
+    },
+    {
+      "Labor_Category_Description": "HTML Editor",
+      "year_one": 42.85,
+      "year_two": 44.56,
+      "year_three": 46.34,
+      "year_four": 48.20,
+      "year_five": 50.13
+    },
+    {
+      "Labor_Category_Description": "Information Engineer, Senior",
+      "year_one": 82.75,
+      "year_two": 86.06,
+      "year_three": 89.51,
+      "year_four": 93.09,
+      "year_five": 96.81
+    },
+    {
+      "Labor_Category_Description": "Logistics Analyst",
+      "year_one": 48.29,
+      "year_two": 50.22,
+      "year_three": 52.23,
+      "year_four": 54.32,
+      "year_five": 56.49
+    },
+    {
+      "Labor_Category_Description": "Logistics Analyst, Senior",
+      "year_one": 62.77,
+      "year_two": 65.29,
+      "year_three": 67.90,
+      "year_four": 70.61,
+      "year_five": 73.44
+    },
+    {
+      "Labor_Category_Description": "Network Engineer",
+      "year_one": 126.63,
+      "year_two": 131.70,
+      "year_three": 136.96,
+      "year_four": 142.44,
+      "year_five": 148.14
+    },
+    {
+      "Labor_Category_Description": "Network Engineer, Senior",
+      "year_one": 153.10,
+      "year_two": 159.22,
+      "year_three": 165.59,
+      "year_four": 172.21,
+      "year_five": 179.10
+    },
+    {
+      "Labor_Category_Description": "OA Trainer",
+      "year_one": 74.40,
+      "year_two": 77.38,
+      "year_three": 80.47,
+      "year_four": 83.69,
+      "year_five": 87.04
+    },
+    {
+      "Labor_Category_Description": "Program (Contract) Manager",
+      "year_one": 116.28,
+      "year_two": 120.93,
+      "year_three": 125.77,
+      "year_four": 130.80,
+      "year_five": 136.03
+    },
+    {
+      "Labor_Category_Description": "Programmer/Program Analyst",
+      "year_one": 40.09,
+      "year_two": 41.70,
+      "year_three": 43.36,
+      "year_four": 45.10,
+      "year_five": 46.90
+    },
+    {
+      "Labor_Category_Description": "Programmer/Program Analyst, Senior",
+      "year_one": 56.87,
+      "year_two": 59.14,
+      "year_three": 61.51,
+      "year_four": 63.97,
+      "year_five": 66.53
+    },
+    {
+      "Labor_Category_Description": "Project (Task) Manager",
+      "year_one": 87.38,
+      "year_two": 90.88,
+      "year_three": 94.51,
+      "year_four": 98.29,
+      "year_five": 102.22
+    },
+    {
+      "Labor_Category_Description": "Quality Assurance Engineer",
+      "year_one": 41.92,
+      "year_two": 43.60,
+      "year_three": 45.34,
+      "year_four": 47.16,
+      "year_five": 49.04
+    },
+    {
+      "Labor_Category_Description": "Quality Assurance Manager",
+      "year_one": 63.30,
+      "year_two": 65.84,
+      "year_three": 68.47,
+      "year_four": 71.21,
+      "year_five": 74.06
+    },
+    {
+      "Labor_Category_Description": "Scientist, Senior",
+      "year_one": 87.38,
+      "year_two": 90.88,
+      "year_three": 94.51,
+      "year_four": 98.29,
+      "year_five": 102.22
+    },
+    {
+      "Labor_Category_Description": "Secure Information Technologist One",
+      "year_one": 72.10,
+      "year_two": 74.98,
+      "year_three": 77.98,
+      "year_four": 81.10,
+      "year_five": 84.35
+    },
+    {
+      "Labor_Category_Description": "Secure Information Technologist Two",
+      "year_one": 76.26,
+      "year_two": 79.31,
+      "year_three": 82.48,
+      "year_four": 85.78,
+      "year_five": 89.21
+    },
+    {
+      "Labor_Category_Description": "Secure Information Technologist Three",
+      "year_one": 100.98,
+      "year_two": 105.02,
+      "year_three": 109.22,
+      "year_four": 113.59,
+      "year_five": 118.13
+    },
+    {
+      "Labor_Category_Description": "Secure Information Technologist Four",
+      "year_one": 119.21,
+      "year_two": 123.98,
+      "year_three": 128.94,
+      "year_four": 134.10,
+      "year_five": 139.46
+    },
+    {
+      "Labor_Category_Description": "Secure Information Technologist Five",
+      "year_one": 129.04,
+      "year_two": 134.20,
+      "year_three": 139.57,
+      "year_four": 145.15,
+      "year_five": 150.96
+    },
+    {
+      "Labor_Category_Description": "Secure Information Technologist Six",
+      "year_one": 147.99,
+      "year_two": 153.91,
+      "year_three": 160.07,
+      "year_four": 166.47,
+      "year_five": 173.13
+    },
+    {
+      "Labor_Category_Description": "Software Engineer, Junior",
+      "year_one": 42.92,
+      "year_two": 44.64,
+      "year_three": 46.42,
+      "year_four": 48.28,
+      "year_five": 50.21
+    },
+    {
+      "Labor_Category_Description": "Software Engineer, Senior",
+      "year_one": 78.43,
+      "year_two": 81.56,
+      "year_three": 84.83,
+      "year_four": 88.22,
+      "year_five": 91.75
+    },
+    {
+      "Labor_Category_Description": "Software Engineer, Principal",
+      "year_one": 136.00,
+      "year_two": 141.44,
+      "year_three": 147.10,
+      "year_four": 152.98,
+      "year_five": 159.10
+    },
+    {
+      "Labor_Category_Description": "Software Engineer, Expert",
+      "year_one": 152.20,
+      "year_two": 158.29,
+      "year_three": 164.62,
+      "year_four": 171.20,
+      "year_five": 178.05
+    },
+    {
+      "Labor_Category_Description": "Subject Matter Expert, Senior",
+      "year_one": 87.80,
+      "year_two": 91.31,
+      "year_three": 94.96,
+      "year_four": 98.76,
+      "year_five": 102.71
+    },
+    {
+      "Labor_Category_Description": "System Administrator",
+      "year_one": 43.99,
+      "year_two": 45.75,
+      "year_three": 47.58,
+      "year_four": 49.49,
+      "year_five": 51.46
+    },
+    {
+      "Labor_Category_Description": "System Administrator, Senior",
+      "year_one": 76.04,
+      "year_two": 79.08,
+      "year_three": 82.24,
+      "year_four": 85.53,
+      "year_five": 88.96
+    },
+    {
+      "Labor_Category_Description": "System Administrator, Principal",
+      "year_one": 101.60,
+      "year_two": 105.66,
+      "year_three": 109.89,
+      "year_four": 114.29,
+      "year_five": 118.86
+    },
+    {
+      "Labor_Category_Description": "System Administrator, Expert",
+      "year_one": 133.33,
+      "year_two": 138.66,
+      "year_three": 144.21,
+      "year_four": 149.98,
+      "year_five": 155.98
+    },
+    {
+      "Labor_Category_Description": "Systems Architect, Senior",
+      "year_one": 95.68,
+      "year_two": 99.51,
+      "year_three": 103.49,
+      "year_four": 107.63,
+      "year_five": 111.93
+    },
+    {
+      "Labor_Category_Description": "Systems Engineer",
+      "year_one": 63.37,
+      "year_two": 65.90,
+      "year_three": 68.54,
+      "year_four": 71.28,
+      "year_five": 74.13
+    },
+    {
+      "Labor_Category_Description": "Systems Engineer, Senior",
+      "year_one": 78.43,
+      "year_two": 81.56,
+      "year_three": 84.83,
+      "year_four": 88.22,
+      "year_five": 91.75
+    },
+    {
+      "Labor_Category_Description": "Systems Engineer, Principal",
+      "year_one": 136.56,
+      "year_two": 142.02,
+      "year_three": 147.70,
+      "year_four": 153.61,
+      "year_five": 159.76
+    },
+    {
+      "Labor_Category_Description": "Systems Engineer, Expert",
+      "year_one": 180.74,
+      "year_two": 187.97,
+      "year_three": 195.49,
+      "year_four": 203.31,
+      "year_five": 211.44
+    },
+    {
+      "Labor_Category_Description": "Systems Security Specialist, Senior",
+      "year_one": 77.80,
+      "year_two": 80.91,
+      "year_three": 84.15,
+      "year_four": 87.52,
+      "year_five": 91.02
+    },
+    {
+      "Labor_Category_Description": "TCO Engineer",
+      "year_one": 140.06,
+      "year_two": 145.66,
+      "year_three": 151.49,
+      "year_four": 157.54,
+      "year_five": 163.85
+    },
+    {
+      "Labor_Category_Description": "Technical Cost Analyst",
+      "year_one": 40.90,
+      "year_two": 42.54,
+      "year_three": 44.24,
+      "year_four": 46.01,
+      "year_five": 47.85
+    },
+    {
+      "Labor_Category_Description": "Technical Writer / Editor",
+      "year_one": 36.19,
+      "year_two": 37.64,
+      "year_three": 39.15,
+      "year_four": 40.71,
+      "year_five": 42.34
+    },
+    {
+      "Labor_Category_Description": "Test / Design Engineer",
+      "year_one": 42.92,
+      "year_two": 44.64,
+      "year_three": 46.42,
+      "year_four": 48.28,
+      "year_five": 50.21
+    },
+    {
+      "Labor_Category_Description": "Test / Design Engineer, Senior",
+      "year_one": 53.72,
+      "year_two": 55.86,
+      "year_three": 58.10,
+      "year_four": 60.42,
+      "year_five": 62.84
+    },
+    {
+      "Labor_Category_Description": "Training Analyst",
+      "year_one": 34.06,
+      "year_two": 35.42,
+      "year_three": 36.84,
+      "year_four": 38.31,
+      "year_five": 39.85
+    },
+    {
+      "Labor_Category_Description": "Training Analyst, Lead",
+      "year_one": 75.16,
+      "year_two": 78.17,
+      "year_three": 81.29,
+      "year_four": 84.55,
+      "year_five": 87.93
+    },
+    {
+      "Labor_Category_Description": "Training Analyst, Senior",
+      "year_one": 45.60,
+      "year_two": 47.43,
+      "year_three": 49.33,
+      "year_four": 51.30,
+      "year_five": 53.35
+    },
+    {
+      "Labor_Category_Description": "Web Developer",
+      "year_one": 56.61,
+      "year_two": 58.87,
+      "year_three": 61.23,
+      "year_four": 63.68,
+      "year_five": 66.22
+    },
+    {
+      "Labor_Category_Description": "Webmaster",
+      "year_one": 66.99,
+      "year_two": 69.67,
+      "year_three": 72.45,
+      "year_four": 75.35,
+      "year_five": 78.36
+    }
+  ]

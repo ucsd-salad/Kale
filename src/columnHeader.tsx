@@ -57,7 +57,7 @@ export default (props) => {
 
   const previousHeaderName = props.displayName;
   const refButton = useRef(null);
-  const ROW_NUMBER_COL_NAME = "RN";
+  const ROW_NUMBER_COL_NAME = "#";
   const ASC = "asc";
   const DESC = "desc";
   const NO_SORT = "";
@@ -138,8 +138,7 @@ export default (props) => {
     // 1. If no cell is being edited, then it allows to rename the column header name
     // 2. Else, if a cell is being edited, then it allows to populate the column name in the cell (Formula mode)
     if (props.api.getEditingCells().length == 0) {
-      // temporarily disable column renaming
-      // setEditing(true);
+      setEditing(true);
     } else {
       props.onHeaderCellClicked(event);
     }
@@ -261,25 +260,22 @@ export default (props) => {
     props.api.setRowData(rowData);
   };
 
-  let sortElement: ReactElement | null = null;
-  // if (props.enableSorting) {
-    sortElement = (
-      <div>
-        <div
-          style={{ display: "inline-block" }}
-          onClick={(event) => onSortRequested(ASC, event)}
-        >
-          <i className="fa fa-long-arrow-alt-down"></i>
-        </div>
-        <div
-          style={{ display: "inline-block" }}
-          onClick={(event) => onSortRequested(DESC, event)}
-        >
-          <i className="fa fa-long-arrow-alt-up"></i>
-        </div>
+  let sortElement: ReactElement = (
+    <div>
+      <div
+        style={{ display: "inline-block" }}
+        onClick={(event) => onSortRequested(ASC, event)}
+      >
+        ▲ 
       </div>
-    );
-  // }
+      <div
+        style={{ display: "inline-block" }}
+        onClick={(event) => onSortRequested(DESC, event)}
+      >
+        ▼ 
+      </div>
+    </div>
+  );
 
   const invalidHeaderStyle = {
     border: isValidHeaderName.hasError ? "2px solid red" : "none",

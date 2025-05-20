@@ -1,0 +1,112 @@
+[
+    {
+      "aquarium": "Coast 1",
+      "month_one": 65,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": 1.323,
+      "fish_added_month_four": 12,
+      "fish_added_month_five": 24
+    },
+    {
+      "aquarium": "Coast 2",
+      "month_one": 31,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Open Ocean 1",
+      "month_one": 108,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Open Ocean 2",
+      "month_one": 49,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Shark Tunnel",
+      "month_one": 55,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Deep Sea",
+      "month_one": 54,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Touch Tank",
+      "month_one": 6,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Tidepool",
+      "month_one": 17,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Seasonal Exhibit",
+      "month_one": 20,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    },
+    {
+      "aquarium": "Arctic",
+      "month_one": 12,
+      "month_two": "",
+      "month_three": "",
+      "month_four": "",
+      "month_five": "",
+      "growth": "",
+      "fish_added_month_four": "",
+      "fish_added_month_five": ""
+    }
+  ]

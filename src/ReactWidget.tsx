@@ -12,6 +12,8 @@ import {
   createAddRowBeforeButton,
   createDeleteRowButton,
   createCopyRowsButton,
+  createInsertCopiedRowsAboveButton,
+  createInsertCopiedRowsBelowButton,
 } from "./grid";
 
 import "ag-grid-community/styles/ag-grid.css";
@@ -28,19 +30,24 @@ export interface WidgetProps {
 export default function ReactWidget(props: WidgetProps) {
   let grid = createGrid(props);
   let colButton = createAddColButton(props);
-  let rowButton = createAddRowButton(props);
-  // let rowAfterButton = createAddRowAfterButton(props);
-  // let rowBeforeButton = createAddRowBeforeButton(props);
+  // let rowButton = createAddRowButton(props);
+  let rowAfterButton = createAddRowAfterButton(props);
+  let rowBeforeButton = createAddRowBeforeButton(props);
   let deleteRowButton = createDeleteRowButton(props);
-  let copyRowsButton = createCopyRowsButton(props);
+  let insertCopiedRowsAboveButton = createInsertCopiedRowsAboveButton(props);
+  let insertCopiedRowsBelowButton = createInsertCopiedRowsBelowButton(props);
+  // let copyRowsButton = createCopyRowsButton(props);
 
   return (
-    <div>
+    <div style={{ height: 1080, width: "100%" }}>
       <div className="action-buttons">
         {colButton}
-        {rowButton}
+        {rowBeforeButton}
+        {rowAfterButton}
         {deleteRowButton}
-        {copyRowsButton}
+        {insertCopiedRowsAboveButton}
+        {insertCopiedRowsBelowButton}
+        {/* {copyRowsButton} */}
       </div>
       {grid}
     </div>
